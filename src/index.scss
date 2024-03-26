@@ -1,0 +1,48 @@
+// Custom.scss
+// Option B: Include parts of Bootstrap
+
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+$dark: #000000;
+$light: #2b2b2b;
+$primary: #ffaa00;
+// 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/variables-dark";
+
+@import "../node_modules/bootstrap/scss/maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/root";
+
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+h1,h2,h3,h4,p,span,time{
+  color:white;
+  margin:0;
+}
+
+ul{
+	list-style-type: none;
+}
+
+
+.spin{
+  animation: 1s linear spin infinite;
+}
+
+@keyframes spin {
+  from{
+    transform: rotate(0);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
+
+.newsitem-score{
+  flex-basis:4rem;
+}
+
+

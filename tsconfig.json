@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"jsx": "react-jsx",
+		"types":["vitest"],
+		"lib": ["ESNext", "DOM"],
+		"module": "EsNext",
+		"target": "EsNext",
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"noEmit": true,
+		"moduleResolution": "bundler",
+		"strict": true
+	}
+}

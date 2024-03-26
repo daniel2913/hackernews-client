@@ -44,7 +44,7 @@ export function isValidPath(str: string): str is (typeof paths)[number] {
 export const newsApi = createApi({
 	reducerPath: "newsApi",
 	tagTypes: [...paths, "story", "comment", "user"],
-	baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3005/api/" }),
+	baseQuery: fetchBaseQuery({ baseUrl: "https://hackernews.danielzh.site/api/" }),
 	endpoints: (builder) => ({
 		getStories: builder.query<StoryShort[], (typeof paths)[number]>({
 			query: (listName) => listName,

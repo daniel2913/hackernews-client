@@ -1,65 +1,10 @@
 import { redirect, useNavigate, useParams } from "react-router";
-import { newsApi, paths, type Comment } from "../store/index";
+import { newsApi, paths} from "../store/index";
 import { Button, Spinner } from "react-bootstrap";
-import { useState } from "react";
-import dayjs from "dayjs";
-import relative from "dayjs/plugin/relativeTime";
 import Reload from "../assets/Reload";
+import { CommentItem } from "../components/CommentItem";
+import { relativeTime } from "../utils/time";
 
-dayjs.extend(relative);
-const relativeTime = (time: number) => dayjs(time).fromNow();
-
-type CommentItemProps = {
-	comment: Comment;
-	depth: number;
-};
-
-function CommentItem({ comment, depth }: CommentItemProps) {
-	const [expanded, setExpanded] = useState(false);
-	const [trigger, { data: comments, isLoading }] =
-		newsApi.useLazyGetCommentsByIdQuery({ pollingInterval: 1000 * 60 });
-	function clickHandler() {
-		setExpanded((s) => !s);
-		if (!expanded && !comments) trigger(comment.id);
-	}
-	return (
-		<article className="p-4 rounded bg-light text-white">
-			<header className="fs-3 d-flex justify-content-between mb-2">
-				<span className="text-primary">{comment.by}</span>
-				<span>{relativeTime(comment.time * 1000)}</span>
-			</header>
-			<p className="fs-4" dangerouslySetInnerHTML={{ __html: comment.text }} />
-			{comment.kids?.length && (
-				<div className="border-start border-white">
-					<div>
-						{expanded ? (
-							isLoading ? (
-								<Spinner />
-							) : (
-								<ul className="ps-1">
-									{comments?.map((comment) => (
-										<li>
-											<CommentItem comment={comment} depth={depth + 1} />
-										</li>
-									))}
-								</ul>
-							)
-						) : (
-							<>
-								<Button
-									onClick={clickHandler}
-									className="rotate-90 ms-2 mt-4 border-0 bg-primary rounded-full"
-								>
-									{comment.kids.length} Replies{" "}
-								</Button>
-							</>
-						)}
-					</div>
-				</div>
-			)}
-		</article>
-	);
-}
 
 export default function NewsPage() {
 	const id = +(useParams().id||0);

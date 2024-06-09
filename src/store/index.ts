@@ -41,15 +41,19 @@ export function isValidPath(str: string): str is (typeof paths)[number] {
 	return paths.includes(str as any);
 }
 
+const apiURL = import.meta.env.VITE_API_URL || (window.location.origin + "/api")
+
 export const newsApi = createApi({
 	reducerPath: "newsApi",
 	tagTypes: [...paths, "story", "comment", "user"],
-	baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3005/api/" }),
+	baseQuery: fetchBaseQuery({ baseUrl: apiURL }),
 	endpoints: (builder) => ({
+
 		getStories: builder.query<StoryShort[], (typeof paths)[number]>({
 			query: (listName) => listName,
 			providesTags: (_, __, listName) => [listName],
 		}),
+
 		refreshStories: builder.mutation<number[], (typeof paths)[number]>({
 			query: (listName) => ({
 				url: listName,
@@ -60,18 +64,20 @@ export const newsApi = createApi({
 
 		getStoryById: builder.query<Story, number>({
 			query: (id: number) => `story/${id}`,
-			providesTags: (_, __, id) => [{ type: "story", id:+id }],
+			providesTags: (_, __, id) => [{ type: "story", id: +id }],
 		}),
+
 		getCommentsById: builder.query<Comment[], number>({
 			query: (id: number) => `comments/${id}`,
-			providesTags: (_, __, id) => [{ type: "comment", id:+id }],
+			providesTags: (_, __, id) => [{ type: "comment", id: +id }],
 		}),
+
 		refreshStory: builder.mutation<Story, number>({
 			query: (id: number) => ({
 				url: `comments/${id}`,
 				method: "POST",
 			}),
-			invalidatesTags: (_, __, id) => [{ type: "story", id:+id }],
+			invalidatesTags: (_, __, id) => [{ type: "story", id: +id }],
 		}),
 	}),
 });
